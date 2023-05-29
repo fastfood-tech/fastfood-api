@@ -81,7 +81,7 @@ describe('Post /orders', () => {
     expect(response.statusCode).toEqual(201);
   });
 
-  it('should return status code 400 for invalid order details', async () => {
+  it('should return status code 400 for inexistent product in order details', async () => {
     const invalidBody = {
       order: [
         {
@@ -96,5 +96,25 @@ describe('Post /orders', () => {
     const response = await supertest(app).post('/orders').send(invalidBody);
 
     expect(response.statusCode).toEqual(400);
+  });
+});
+
+describe('Post /orders/{id}/finish', () => {
+  it('should finish order when it is not done yet', async () => {
+    await seedOrder(false, false);
+    const order = await prisma.order.findFirst({});
+
+    const response = await supertest(app).post(`/orders/${order.id}/finish`);
+
+    expect(response.statusCode).toEqual(200);
+  });
+
+  it('should return status 409 if try finish an order when it is already done', async () => {
+    await seedOrder(true, false);
+    const order = await prisma.order.findFirst({});
+
+    const response = await supertest(app).post(`/orders/${order.id}/finish`);
+
+    expect(response.statusCode).toEqual(409);
   });
 });
