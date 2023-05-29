@@ -1,6 +1,17 @@
 import { Request, Response } from 'express';
+import NewOrder from 'protocols';
 import IOrderService from 'services/orders/IOrderService';
 
+type createOderBody = {
+  order: [
+    {
+      productId: number;
+      amount: number;
+      annotations: string;
+      selectedExtras: number[];
+    },
+  ];
+};
 export default class OrderController {
   readonly orderService: IOrderService;
 
@@ -35,5 +46,12 @@ export default class OrderController {
 
     await this.orderService.deliverOrder(id);
     res.sendStatus(200);
+  }
+
+  async createOrder(req: Request, res: Response): Promise<void> {
+    const body = req.body as NewOrder;
+
+    await this.orderService.createOrders(body);
+    res.sendStatus(201);
   }
 }

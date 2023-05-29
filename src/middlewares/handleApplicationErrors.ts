@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import OrderServiceException from 'services/orders/exceptions/OrderServiceException';
+import OrderServiceException from '../services/orders/exceptions/OrderServiceException';
 
 export function handleApplicationErrors(
   err: OrderServiceException | Error,
@@ -13,6 +13,8 @@ export function handleApplicationErrors(
     });
     return;
   }
+
+  console.log(err);
 
   res.status(500).send('internal server error XD');
 }

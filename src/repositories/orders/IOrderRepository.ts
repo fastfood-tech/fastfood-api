@@ -1,13 +1,14 @@
 import { Order } from '@prisma/client';
+import { OrderDetails } from 'protocols';
 
 export default interface IOrderRepository {
   createOrder(
     isDone: boolean,
     isDelivered: boolean,
-    orderedProductId: number,
+    orderedProductIds: number[],
   ): Promise<void>;
 
-  findOpen(): Promise<Order[]>;
+  findOpen(): Promise<OrderDetails[]>;
 
   getById(orderId: number): Promise<Order>;
 

@@ -1,4 +1,6 @@
 import { Order, Prisma, PrismaClient } from '@prisma/client';
+import { OrderDetails } from 'protocols';
+import { OrderedProduct } from 'models/OrderedProduct';
 import IOrderRepository from './IOrderRepository';
 
 export default class OrderRepository implements IOrderRepository {
@@ -11,12 +13,16 @@ export default class OrderRepository implements IOrderRepository {
   async createOrder(
     isDone: boolean,
     isDelivered: boolean,
-    orderedProductId: number,
+    orderedProductIds: number[],
   ): Promise<void> {
+    const mappedIds = orderedProductIds.map(orderedProductId => {
+      return { id: orderedProductId };
+    });
+
     const orderData: Prisma.OrderCreateInput = {
       isDone,
       isDelivered,
-      product: { connect: { id: orderedProductId } },
+      orderedProduct: { connect: mappedIds },
     };
 
     await this.prisma.order.create({
@@ -24,15 +30,32 @@ export default class OrderRepository implements IOrderRepository {
     });
   }
 
-  async findOpen(): Promise<Order[]> {
+  async findOpen(): Promise<OrderDetails[]> {
     const orders = await this.prisma.order.findMany({
       where: { isDelivered: false },
       include: {
-        product: { include: { selectedExtras: true, product: true } },
+        orderedProduct: { include: { selectedExtras: true, product: true } },
       },
     });
 
-    return orders;
+    const result: OrderDetails[] = orders.map(o => {
+      return {
+        id: o.id,
+        isDelivered: o.isDelivered,
+        isDone: o.isDone,
+        products: o.orderedProduct.map(p => {
+          return {
+            id: p.id,
+            amount: p.amount,
+            annotations: p.annotations,
+            selectedExtras: p.selectedExtras,
+            productName: p.product.name,
+          };
+        }),
+      };
+    });
+
+    return result;
   }
 
   async getById(orderId: number): Promise<Order> {

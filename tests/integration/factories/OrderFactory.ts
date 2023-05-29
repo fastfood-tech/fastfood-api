@@ -12,7 +12,7 @@ export async function seedOrder(
   const Order: Prisma.OrderCreateInput = {
     isDone,
     isDelivered,
-    product: {
+    orderedProduct: {
       connect: { id: orderedProduct.id },
     },
   };

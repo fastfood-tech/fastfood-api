@@ -22,36 +22,26 @@ describe('GET /orders', () => {
     expect(orders).toMatchObject(
       expect.arrayContaining([
         expect.objectContaining({
-          createdAt: expect.any(String),
           id: expect.any(Number),
           isDelivered: false,
           isDone: true,
-          orderedProductId: expect.any(Number),
-          product: expect.objectContaining({
-            amount: expect.any(Number),
-            annotations: expect.any(String),
-            id: expect.any(Number),
-            product: expect.objectContaining({
-              categoryId: expect.any(Number),
-              code: expect.any(Number),
+          products: expect.arrayContaining([
+            expect.objectContaining({
+              amount: expect.any(Number),
+              annotations: expect.any(String),
               id: expect.any(Number),
-              imageUrl: expect.any(String),
-              ingredients: expect.any(String),
-              name: expect.any(String),
-              price: expect.any(Number),
+              selectedExtras: expect.arrayContaining([
+                expect.objectContaining({
+                  description: expect.any(String),
+                  id: expect.any(Number),
+                  imageUrl: expect.any(String),
+                  name: expect.any(String),
+                  orderedProductId: expect.any(Number),
+                  price: expect.any(Number),
+                }),
+              ]),
             }),
-            productId: expect.any(Number),
-            selectedExtras: expect.arrayContaining([
-              expect.objectContaining({
-                description: expect.any(String),
-                id: expect.any(Number),
-                imageUrl: expect.any(String),
-                name: expect.any(String),
-                orderedProductId: expect.any(Number),
-                price: expect.any(Number),
-              }),
-            ]),
-          }),
+          ]),
         }),
       ]),
     );
@@ -81,7 +71,7 @@ describe('Post /orders', () => {
           productId: product.id,
           amount: 5,
           annotations: 'sem cebola',
-          extraIds: [validExtra.id],
+          selectedExtras: [validExtra.id],
         },
       ],
     };
@@ -98,7 +88,7 @@ describe('Post /orders', () => {
           productId: 42,
           amount: 42,
           annotations: 'com cebola',
-          extraIds: [73],
+          selectedExtras: [73],
         },
       ],
     };

@@ -1,11 +1,10 @@
 import Order from 'models/Order';
 import { OrderedProduct } from 'models/OrderedProduct';
+import NewOrder, { OrderDetails } from 'protocols';
 
 export default interface IOrderService {
-  getOrders: () => Promise<Order[]>;
-  createOrders: (
-    orderData: Order & { product: OrderedProduct },
-  ) => Promise<void>;
+  getOrders(): Promise<OrderDetails[]>;
+  createOrders: (orderData: NewOrder) => Promise<void>;
   finishOrder: (orderId: number) => Promise<void>;
   deliverOrder: (orderId: number) => Promise<void>;
 }

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
-import { handleApplicationErrors } from 'middlewares/handleApplicationErrors';
+import { handleApplicationErrors } from './middlewares/handleApplicationErrors';
 import { categoryRouter, orderRouter, productRouter } from './routers';
 import { disconnectDB } from './config/database';
 

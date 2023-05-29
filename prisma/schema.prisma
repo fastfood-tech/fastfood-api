@@ -39,7 +39,6 @@ model Product {
   extras         Extra[]
   category       Category         @relation(fields: [categoryId], references: [id])
   OrderedProduct OrderedProduct[]
-  Order          Order[]
 }
 
 model OrderedProduct {
@@ -49,13 +48,14 @@ model OrderedProduct {
   annotations    String
   selectedExtras Extra[]
   productId      Int
+  Order          Order?  @relation(fields: [orderId], references: [id])
+  orderId        Int?
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
-  isDone    Boolean
-  isDelivered Boolean
-  createAt  DateTime @default(now())
-  productId Int
+  id             Int              @id @default(autoincrement())
+  orderedProduct OrderedProduct[]
+  isDone         Boolean
+  isDelivered    Boolean
+  createdAt       DateTime         @default(now())
 }

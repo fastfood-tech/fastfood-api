@@ -1,7 +1,7 @@
-import OrderRepository from 'repositories/orders/OrderRepository';
-import OrderService from 'services/orders/OrdersService';
-import OrderController from 'controllers/OrderController';
-import { productRepository } from 'modules/product';
+import { productRepository } from '../../modules/product';
+import OrderRepository from '../../repositories/orders/OrderRepository';
+import OrderService from '../../services/orders/OrdersService';
+import OrderController from '../../controllers/OrderController';
 import { prisma } from '../../config/database';
 
 export const orderRepository = new OrderRepository(prisma);

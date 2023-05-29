@@ -16,21 +16,34 @@ export default class ProductRepository implements IProductRepository {
   }
 
   async createOrderProduct(
-    orderProduct: OrderedProduct,
+    orderedProduct: OrderedProduct & { productId: number },
   ): Promise<OrderedProduct> {
-    const extraMappedids = orderProduct.selectedExtras.map(s => {
+    const extraMappedids = orderedProduct.selectedExtras.map(s => {
       return {
-        id: s.id,
+        id: s,
       };
     });
 
-    const asd: Prisma.OrderedProductCreateInput = {
-      amount: orderProduct.amount,
-      annotations: orderProduct.annotations,
-      product: { connect: { id: orderProduct.product.id } },
+    const data: Prisma.OrderedProductCreateInput = {
+      amount: orderedProduct.amount,
+      annotations: orderedProduct.annotations,
+      product: { connect: { id: orderedProduct.productId } },
       selectedExtras: { connect: extraMappedids },
     };
 
-    return this.prisma.orderedProduct.create({ data: asd });
+    return this.prisma.orderedProduct.create({ data });
+  }
+
+  async getProductById(productId: number): Promise<Product> {
+    return this.prisma.product.findFirst({
+      where: { id: productId },
+      include: { extras: true },
+    });
+  }
+
+  async getOrderedProductById(productId: number): Promise<OrderedProduct> {
+    return this.prisma.orderedProduct.findFirst({
+      where: { id: productId },
+    });
   }
 }

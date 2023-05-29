@@ -10,5 +10,5 @@ export class OrderedProduct {
 
   annotations: string;
 
-  selectedExtras?: Extra[];
+  selectedExtras?: Extra[] | number[];
 }

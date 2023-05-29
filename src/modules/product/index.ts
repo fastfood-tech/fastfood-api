@@ -1,4 +1,4 @@
-import ProductService from 'services/products/ProductService';
+import ProductService from '../../services/products/ProductService';
 import ProductRepository from '../../repositories/products/ProductRepository';
 import ProductController from '../../controllers/ProductController';
 import { prisma } from '../../config/database';
