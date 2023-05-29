@@ -1,4 +1,5 @@
-import { Category, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import Category from 'models/Category';
 import ICategoryRepository from './ICategoryRepository';
 
 export default class CategoryRepository implements ICategoryRepository {

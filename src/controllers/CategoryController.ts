@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Category from 'models/Category';
+import Category from '../models/Category';
 import ICategoryService from '../services/categories/ICategoryService';
 
 export default class CategoryController {
@@ -17,10 +17,5 @@ export default class CategoryController {
       console.log(e);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  }
-
-  async getCategories3(): Promise<Category[]> {
-    const categories = await this.categoryService.getCategories();
-    return categories;
   }
 }

@@ -1,4 +1,4 @@
-import { Category } from '@prisma/client';
+import Category from 'models/Category';
 
 export default interface ICategoryService {
   getCategories: () => Promise<Category[]>;
