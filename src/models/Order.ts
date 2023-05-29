@@ -1,9 +1,9 @@
 import { OrderedProduct } from './OrderedProduct';
 
-export class Order {
+export default class Order {
   id: number;
 
-  orderedProduct: OrderedProduct;
+  product?: OrderedProduct;
 
   isDone: boolean;
 

@@ -5,10 +5,10 @@ import { seedExtras } from './extrasFactory';
 import { seedCategories } from './categoryFactory';
 
 export async function seedProduct(): Promise<void> {
-  seedCategories(1);
+  await seedCategories(1);
   const category = await prisma.category.findFirst({});
 
-  seedExtras(1);
+  await seedExtras(1);
   const extras = await prisma.extra.findFirst({});
 
   const name = faker.commerce.productName();
@@ -46,7 +46,7 @@ export async function seedOrderedProduct(): Promise<void> {
       connect: { id: product.id },
     },
     selectedExtras: {
-      connect: [{ id: extra.id }],
+      connect: { id: extra.id },
     },
   };
 

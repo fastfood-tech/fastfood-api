@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import Category from '../models/Category';
 import ICategoryService from '../services/categories/ICategoryService';
 
 export default class CategoryController {

@@ -1,10 +1,17 @@
 import supertest from 'supertest';
-import { Order } from 'models/Order';
+import Order from 'models/Order';
 import { prisma } from 'config/database';
 import app from '../../src/app';
 import { seedOrder } from './factories/OrderFactory';
 import { seedProduct } from './factories/productFactory';
 
+beforeEach(async () => {
+  await prisma.order.deleteMany({});
+  await prisma.orderedProduct.deleteMany({});
+  await prisma.product.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.extra.deleteMany({});
+});
 describe('GET /orders', () => {
   it('should return all undelivered orders', async () => {
     await seedOrder(true, false);
@@ -12,33 +19,36 @@ describe('GET /orders', () => {
     const response = await supertest(app).get('/orders');
     const orders: Order[] = response.body;
 
-    expect(orders).toEqual(
+    expect(orders).toMatchObject(
       expect.arrayContaining([
         expect.objectContaining({
+          createdAt: expect.any(String),
           id: expect.any(Number),
-          isDone: true,
           isDelivered: false,
-          createdAt: expect.any(Date),
+          isDone: true,
+          orderedProductId: expect.any(Number),
           product: expect.objectContaining({
-            id: expect.any(Number),
             amount: expect.any(Number),
             annotations: expect.any(String),
+            id: expect.any(Number),
             product: expect.objectContaining({
-              id: expect.any(Number),
-              name: expect.any(String),
-              code: expect.any(Number),
-              imageUrl: expect.any(String),
               categoryId: expect.any(Number),
+              code: expect.any(Number),
+              id: expect.any(Number),
+              imageUrl: expect.any(String),
               ingredients: expect.any(String),
+              name: expect.any(String),
               price: expect.any(Number),
             }),
+            productId: expect.any(Number),
             selectedExtras: expect.arrayContaining([
               expect.objectContaining({
-                id: expect.any(Number),
-                name: expect.any(String),
-                imageUrl: expect.any(String),
-                price: expect.any(Number),
                 description: expect.any(String),
+                id: expect.any(Number),
+                imageUrl: expect.any(String),
+                name: expect.any(String),
+                orderedProductId: expect.any(Number),
+                price: expect.any(Number),
               }),
             ]),
           }),
