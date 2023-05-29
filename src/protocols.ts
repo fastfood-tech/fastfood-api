@@ -17,7 +17,7 @@ export type OrderDetails = {
   id: number;
   isDone: boolean;
   isDelivered: boolean;
-  products: {OrderedProduct &  productName: string }[];
+  products: OrderedProduct[];
 };
 
 export default NewOrder;

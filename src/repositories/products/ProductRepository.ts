@@ -1,7 +1,8 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-
 import Product from 'models/Product';
-import { OrderedProduct } from 'models/OrderedProduct';
+import Extra from 'models/Extra';
+import { OrderedProduct } from '../../models/OrderedProduct';
+import OrderServiceException from '../../services/orders/exceptions/OrderServiceException';
 import IProductRepository from './IProductRepository';
 
 export default class ProductRepository implements IProductRepository {
@@ -18,11 +19,16 @@ export default class ProductRepository implements IProductRepository {
   async createOrderProduct(
     orderedProduct: OrderedProduct & { productId: number },
   ): Promise<OrderedProduct> {
-    const extraMappedids = orderedProduct.selectedExtras.map(s => {
-      return {
-        id: s,
-      };
-    });
+    const extraMappedids = await Promise.all(
+      orderedProduct.selectedExtras.map(async s => {
+        const extra = await this.prisma.extra.findFirst({
+          where: { id: s },
+        });
+        if (!extra) throw new OrderServiceException(400, 'invalid extra item');
+
+        return { id: extra.id };
+      }),
+    );
 
     const data: Prisma.OrderedProductCreateInput = {
       amount: orderedProduct.amount,

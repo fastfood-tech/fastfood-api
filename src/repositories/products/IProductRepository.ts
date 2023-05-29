@@ -1,5 +1,5 @@
-import { OrderedProduct } from 'models/OrderedProduct';
-import Product from 'models/Product';
+import { OrderedProduct } from '../../models/OrderedProduct';
+import Product from '../../models/Product';
 
 export default interface IProductRepository {
   findAll: () => Promise<Product[]>;
