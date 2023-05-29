@@ -12,6 +12,9 @@ beforeEach(async () => {
   await prisma.category.deleteMany({});
   await prisma.extra.deleteMany({});
 });
+
+afterAll(() => prisma.$disconnect());
+
 describe('GET /orders', () => {
   it('should return all undelivered orders', async () => {
     await seedOrder(true, false);
