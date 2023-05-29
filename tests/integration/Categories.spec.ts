@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { Category } from '@prisma/client';
+import Category from 'models/Category';
 import app from '../../src/app';
 import { seedCategories } from './factories/categoryFactory';
 
