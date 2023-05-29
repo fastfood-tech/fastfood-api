@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker';
 import Product from 'models/Product';
 import { prisma } from 'config/database';
+import { OrderedProduct } from 'models/OrderedProduct';
+import { Prisma } from '@prisma/client';
+import { seedExtras } from './extrasFactory';
 
 type ProductData = Omit<Product, 'id' | 'extras'>;
 
@@ -30,4 +33,25 @@ export async function seedProducts(count: number): Promise<void> {
   await prisma.product.createMany({
     data: productsData,
   });
+}
+
+export async function seedOrderedProduct(): Promise<void> {
+  await seedProducts(1);
+  const product = await prisma.product.findFirst({ include: { extras: true } });
+
+  await seedExtras(1);
+  const extra = await prisma.extra.findFirst({});
+
+  const orderedProduct: Prisma.OrderedProductCreateInput = {
+    amount: faker.number.int({ min: 1, max: 10 }),
+    annotations: faker.lorem.words(5),
+    product: {
+      connect: { id: product.id },
+    },
+    selectedExtras: {
+      connect: [{ id: extra.id }],
+    },
+  };
+
+  await prisma.orderedProduct.create({ data: orderedProduct });
 }
