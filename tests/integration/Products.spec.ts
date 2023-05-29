@@ -1,11 +1,11 @@
 import supertest from 'supertest';
 import Product from 'models/Product';
 import app from '../../src/app';
-import { seedProducts } from './factories/productFactory';
+import { seedProduct } from './factories/productFactory';
 
 describe('GET /products', () => {
   it('should return all products', async () => {
-    await seedProducts(5);
+    await seedProduct();
 
     const response = await supertest(app).get('/products');
     const products: Product[] = response.body;

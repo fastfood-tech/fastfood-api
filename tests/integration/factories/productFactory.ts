@@ -1,42 +1,39 @@
 import { faker } from '@faker-js/faker';
-import Product from 'models/Product';
 import { prisma } from 'config/database';
-import { OrderedProduct } from 'models/OrderedProduct';
 import { Prisma } from '@prisma/client';
 import { seedExtras } from './extrasFactory';
+import { seedCategories } from './categoryFactory';
 
-type ProductData = Omit<Product, 'id' | 'extras'>;
+export async function seedProduct(): Promise<void> {
+  seedCategories(1);
+  const category = await prisma.category.findFirst({});
 
-export async function seedProducts(count: number): Promise<void> {
-  const productsData: ProductData[] = [];
+  seedExtras(1);
+  const extras = await prisma.extra.findFirst({});
 
-  for (let i = 0; i < count; i += 1) {
-    const name = faker.commerce.productName();
-    const code = faker.number.int({ min: 1000, max: 9999 });
-    const imageUrl = faker.image.url();
-    const categoryId = faker.number.int({ min: 1, max: 5 });
-    const ingredients = faker.lorem.words(5);
-    const price = +faker.commerce.price();
+  const name = faker.commerce.productName();
+  const code = faker.number.int({ min: 1000, max: 9999 });
+  const imageUrl = faker.image.url();
+  const ingredients = faker.lorem.words(5);
+  const price = +faker.commerce.price();
 
-    const productData: ProductData = {
-      name,
-      code,
-      imageUrl,
-      categoryId,
-      ingredients,
-      price,
-    };
+  const productData: Prisma.ProductCreateInput = {
+    name,
+    code,
+    imageUrl,
+    category: { connect: { id: category.id } },
+    ingredients,
+    price,
+    extras: { connect: [{ id: extras.id }] },
+  };
 
-    productsData.push(productData);
-  }
-
-  await prisma.product.createMany({
-    data: productsData,
+  await prisma.product.create({
+    data: productData,
   });
 }
 
 export async function seedOrderedProduct(): Promise<void> {
-  await seedProducts(1);
+  await seedProduct();
   const product = await prisma.product.findFirst({ include: { extras: true } });
 
   await seedExtras(1);

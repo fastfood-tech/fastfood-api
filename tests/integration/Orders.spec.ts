@@ -1,7 +1,9 @@
 import supertest from 'supertest';
 import { Order } from 'models/Order';
+import { prisma } from 'config/database';
 import app from '../../src/app';
 import { seedOrder } from './factories/OrderFactory';
+import { seedProduct } from './factories/productFactory';
 
 describe('GET /orders', () => {
   it('should return all undelivered orders', async () => {
@@ -52,5 +54,47 @@ describe('GET /orders', () => {
     const orders: Order[] = response.body;
 
     expect(orders.length).toEqual(0);
+  });
+});
+
+describe('Post /orders', () => {
+  it('should save order for valid order details', async () => {
+    await seedProduct();
+    const product = await prisma.product.findFirst({
+      include: { extras: true },
+    });
+    const validExtra = product.extras[0];
+
+    const validBody = {
+      order: [
+        {
+          productId: product.id,
+          amount: 5,
+          annotations: 'sem cebola',
+          extraIds: [validExtra.id],
+        },
+      ],
+    };
+
+    const response = await supertest(app).post('/orders').send(validBody);
+
+    expect(response.statusCode).toEqual(201);
+  });
+
+  it('should return status code 400 for invalid order details', async () => {
+    const invalidBody = {
+      order: [
+        {
+          productId: 42,
+          amount: 42,
+          annotations: 'com cebola',
+          extraIds: [73],
+        },
+      ],
+    };
+
+    const response = await supertest(app).post('/orders').send(invalidBody);
+
+    expect(response.statusCode).toEqual(400);
   });
 });
