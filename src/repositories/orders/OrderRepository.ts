@@ -50,7 +50,6 @@ export default class OrderRepository implements IOrderRepository {
   ): Promise<Order> {
     const order = await this.prisma.order.findFirst({
       where: { id: orderId },
-      include: { product: true },
     });
 
     order.isDone = isDone;

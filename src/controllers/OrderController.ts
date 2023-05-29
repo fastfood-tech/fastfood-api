@@ -9,12 +9,31 @@ export default class OrderController {
   }
 
   async getOrders(req: Request, res: Response): Promise<void> {
-    try {
-      const Orders = await this.orderService.getOrders();
-      res.status(200).json(Orders);
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+    const Orders = await this.orderService.getOrders();
+    res.status(200).json(Orders);
+  }
+
+  async finishOrder(req: Request, res: Response): Promise<void> {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.sendStatus(404);
+      return;
     }
+
+    await this.orderService.finishOrder(id);
+    res.sendStatus(200);
+  }
+
+  async deliverOrder(req: Request, res: Response): Promise<void> {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.sendStatus(404);
+      return;
+    }
+
+    await this.orderService.deliverOrder(id);
+    res.sendStatus(200);
   }
 }

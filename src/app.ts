@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
+import { handleApplicationErrors } from 'middlewares/handleApplicationErrors';
 import { categoryRouter, orderRouter, productRouter } from './routers';
 import { disconnectDB } from './config/database';
 
@@ -12,7 +13,8 @@ app
   .get('/health', (_req, res) => res.send('OK!'))
   .use('/categories', categoryRouter)
   .use('/products', productRouter)
-  .use('/orders', orderRouter);
+  .use('/orders', orderRouter)
+  .use(handleApplicationErrors);
 
 export async function close(): Promise<void> {
   await disconnectDB();
