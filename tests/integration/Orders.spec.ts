@@ -118,3 +118,23 @@ describe('Post /orders/{id}/finish', () => {
     expect(response.statusCode).toEqual(409);
   });
 });
+
+describe('Post /orders/{id}/deliver', () => {
+  it('should deliver order when it is not delivered yet', async () => {
+    await seedOrder(true, false);
+    const order = await prisma.order.findFirst({});
+
+    const response = await supertest(app).post(`/orders/${order.id}/deliver`);
+
+    expect(response.statusCode).toEqual(200);
+  });
+
+  it('should return status 409 if try diliver an order when it is already delivered', async () => {
+    await seedOrder(true, true);
+    const order = await prisma.order.findFirst({});
+
+    const response = await supertest(app).post(`/orders/${order.id}/finish`);
+
+    expect(response.statusCode).toEqual(409);
+  });
+});
