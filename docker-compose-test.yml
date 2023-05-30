@@ -21,13 +21,5 @@ services:
       - ./.env
     volumes:
       - /usr/local/fastfood-pg/data:/var/lib/postgresql/data
-  nginx:
-    build: ./nginx
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - api
-    volumes:
-      - /usr/source/fastfood/front-end:/var/www/html
+ 
  
