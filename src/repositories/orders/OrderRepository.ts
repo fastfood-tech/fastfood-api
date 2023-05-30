@@ -14,6 +14,7 @@ export default class OrderRepository implements IOrderRepository {
     isDone: boolean,
     isDelivered: boolean,
     orderedProductIds: number[],
+    clientName: string,
   ): Promise<void> {
     const mappedIds = orderedProductIds.map(orderedProductId => {
       return { id: orderedProductId };
@@ -22,6 +23,7 @@ export default class OrderRepository implements IOrderRepository {
     const orderData: Prisma.OrderCreateInput = {
       isDone,
       isDelivered,
+      clientName,
       orderedProduct: { connect: mappedIds },
     };
 
@@ -42,6 +44,7 @@ export default class OrderRepository implements IOrderRepository {
       return {
         id: o.id,
         isDelivered: o.isDelivered,
+        clientName: o.clientName,
         isDone: o.isDone,
         products: o.orderedProduct.map(p => {
           return {

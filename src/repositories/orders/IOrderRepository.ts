@@ -6,6 +6,7 @@ export default interface IOrderRepository {
     isDone: boolean,
     isDelivered: boolean,
     orderedProductIds: number[],
+    clientName: string,
   ): Promise<void>;
 
   findOpen(): Promise<OrderDetails[]>;

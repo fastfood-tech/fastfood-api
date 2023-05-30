@@ -46,7 +46,12 @@ export default class OrderService implements IOrderService {
 
     await Promise.all(promises);
 
-    await this.orderRepository.createOrder(false, false, orderedProductIds);
+    await this.orderRepository.createOrder(
+      false,
+      false,
+      orderedProductIds,
+      orderData.clientName,
+    );
   }
 
   async finishOrder(orderId: number): Promise<void> {

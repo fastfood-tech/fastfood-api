@@ -3,6 +3,7 @@ import { OrderedProduct } from 'models/OrderedProduct';
 import Product from 'models/Product';
 
 type NewOrder = {
+  clientName: string;
   order: [
     {
       productId: number;
@@ -17,6 +18,7 @@ export type OrderDetails = {
   id: number;
   isDone: boolean;
   isDelivered: boolean;
+  clientName: string;
   products: OrderedProduct[];
 };
 

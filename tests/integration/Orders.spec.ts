@@ -28,6 +28,7 @@ describe('GET /orders', () => {
           id: expect.any(Number),
           isDelivered: false,
           isDone: true,
+          clientName: expect.any(String),
           products: expect.arrayContaining([
             expect.objectContaining({
               amount: expect.any(Number),
@@ -69,6 +70,7 @@ describe('Post /orders', () => {
     const validExtra = product.extras[0];
 
     const validBody = {
+      clientName: 'Jão',
       order: [
         {
           productId: product.id,
@@ -86,6 +88,7 @@ describe('Post /orders', () => {
 
   it('should return status code 400 for inexistent product in order details', async () => {
     const invalidBody = {
+      clientName: 'Jão',
       order: [
         {
           productId: 42,
