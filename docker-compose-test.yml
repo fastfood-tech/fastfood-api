@@ -1,0 +1,25 @@
+version: "3"
+services:
+  api:
+    build: .
+    container_name: api
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    working_dir: /usr/src/fastfood
+    command: bash -c "npx prisma migrate dev && npx prisma db seed && npm run start"
+    restart: unless-stopped
+    env_file: 
+      - ./.env
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13-alpine
+    env_file: 
+      - ./.env
+    volumes:
+      - /usr/local/fastfood-pg/data:/var/lib/postgresql/data
+ 
+ 

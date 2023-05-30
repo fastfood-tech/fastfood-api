@@ -11,7 +11,52 @@ datasource db {
 }
 
 model Category {
-  id    Int     @id @default(autoincrement())
-  name  String
-  image String
+  id       Int       @id @default(autoincrement())
+  name     String
+  image    String
+  products Product[]
+}
+
+model Extra {
+  id               Int             @id @default(autoincrement())
+  name             String
+  description      String
+  price            Float
+  imageUrl         String
+  products         Product[]
+  OrderedProduct   OrderedProduct? @relation(fields: [orderedProductId], references: [id])
+  orderedProductId Int?
+}
+
+model Product {
+  id             Int              @id @default(autoincrement())
+  name           String
+  code           Int
+  imageUrl       String
+  categoryId     Int
+  ingredients    String
+  price          Float
+  extras         Extra[]
+  category       Category         @relation(fields: [categoryId], references: [id])
+  OrderedProduct OrderedProduct[]
+}
+
+model OrderedProduct {
+  id             Int     @id @default(autoincrement())
+  product        Product @relation(fields: [productId], references: [id])
+  amount         Int
+  annotations    String
+  selectedExtras Extra[]
+  productId      Int
+  Order          Order?  @relation(fields: [orderId], references: [id])
+  orderId        Int?
+}
+
+model Order {
+  id             Int              @id @default(autoincrement())
+  clientName     String          
+  orderedProduct OrderedProduct[]
+  isDone         Boolean
+  isDelivered    Boolean
+  createdAt      DateTime         @default(now())
 }
