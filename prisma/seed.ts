@@ -4,6 +4,12 @@ import { categories, extraItems, products } from './seedData';
 const prisma = new PrismaClient();
 
 async function main() {
+  const productsDb = await prisma.product.findMany({});
+  if (productsDb.length >= products.length) {
+    console.log('skipping seed');
+    return;
+  }
+
   await Promise.all(
     categories.map(async c => {
       await prisma.category.upsert({
