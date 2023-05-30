@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import Product from 'models/Product';
 import Extra from 'models/Extra';
+import { ProductFilterOptions } from 'protocols';
 import { OrderedProduct } from '../../models/OrderedProduct';
 import OrderServiceException from '../../services/orders/exceptions/OrderServiceException';
 import IProductRepository from './IProductRepository';
@@ -12,8 +13,29 @@ export default class ProductRepository implements IProductRepository {
     this.prisma = prismaClient;
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.prisma.product.findMany({ include: { extras: true } });
+  async findAll({
+    categoryId,
+    name,
+    code,
+  }: ProductFilterOptions): Promise<Product[]> {
+    return this.prisma.product.findMany({
+      include: { extras: true },
+      where: {
+        id: code,
+        categoryId,
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
+  async findTop(): Promise<Product[]> {
+    return this.prisma.product.findMany({
+      include: { extras: true },
+      take: 12,
+    });
   }
 
   async createOrderProduct(

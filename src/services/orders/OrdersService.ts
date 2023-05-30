@@ -37,14 +37,12 @@ export default class OrderService implements IOrderService {
       }),
     );
 
-    const orderedProductIds = [];
-
-    const promises = orderData?.order.map(async p => {
-      const orderProduct = await this.productRepository.createOrderProduct(p);
-      orderedProductIds.push(orderProduct.id);
-    });
-
-    await Promise.all(promises);
+    const orderedProductIds = await Promise.all(
+      orderData?.order.map(async p => {
+        const orderProduct = await this.productRepository.createOrderProduct(p);
+        return orderProduct.id;
+      }),
+    );
 
     await this.orderRepository.createOrder(
       false,

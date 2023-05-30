@@ -189,12 +189,12 @@ export const products = [
   },
   {
     id: 12,
-    name: 'Huuum.. Bolo de morango',
+    name: 'Bolo de morango',
     code: 12,
     imageUrl:
       'https://images.squarespace-cdn.com/content/55a352c6e4b0d4ed46a2f7b3/1623235757391-GKG2I284EWF1UHAEVGY8/8F2A7DB3-F79E-4A30-A1A2-68F65BA79493_clipped_rev_1.png?format=1500w&content-type=image%2Fpng',
-    categoryId: 3,
-    ingredients: 'Álcool, limão',
+    categoryId: 4,
+    ingredients: 'Morangos, calda',
     price: 35,
   },
   {
@@ -203,8 +203,8 @@ export const products = [
     code: 13,
     imageUrl:
       'https://images.squarespace-cdn.com/content/55a352c6e4b0d4ed46a2f7b3/1623235757391-GKG2I284EWF1UHAEVGY8/8F2A7DB3-F79E-4A30-A1A2-68F65BA79493_clipped_rev_1.png?format=1500w&content-type=image%2Fpng',
-    categoryId: 3,
-    ingredients: 'Álcool, limão',
+    categoryId: 4,
+    ingredients: 'Morangos, calda',
     price: 35,
   },
   {
@@ -213,8 +213,8 @@ export const products = [
     code: 14,
     imageUrl:
       'https://images.squarespace-cdn.com/content/55a352c6e4b0d4ed46a2f7b3/1623235757391-GKG2I284EWF1UHAEVGY8/8F2A7DB3-F79E-4A30-A1A2-68F65BA79493_clipped_rev_1.png?format=1500w&content-type=image%2Fpng',
-    categoryId: 3,
-    ingredients: 'Álcool, limão',
+    categoryId: 4,
+    ingredients: 'Morangos, calda',
     price: 35,
   },
   {
@@ -223,8 +223,8 @@ export const products = [
     code: 15,
     imageUrl:
       'https://images.squarespace-cdn.com/content/55a352c6e4b0d4ed46a2f7b3/1623235757391-GKG2I284EWF1UHAEVGY8/8F2A7DB3-F79E-4A30-A1A2-68F65BA79493_clipped_rev_1.png?format=1500w&content-type=image%2Fpng',
-    categoryId: 3,
-    ingredients: 'Álcool, limão',
+    categoryId: 4,
+    ingredients: 'Morangos, calda',
     price: 35,
   },
   {
@@ -233,8 +233,8 @@ export const products = [
     code: 16,
     imageUrl:
       'https://images.squarespace-cdn.com/content/55a352c6e4b0d4ed46a2f7b3/1623235757391-GKG2I284EWF1UHAEVGY8/8F2A7DB3-F79E-4A30-A1A2-68F65BA79493_clipped_rev_1.png?format=1500w&content-type=image%2Fpng',
-    categoryId: 3,
-    ingredients: 'Álcool, limão',
+    categoryId: 4,
+    ingredients: 'Morangos, calda',
     price: 35,
   },
 ];

@@ -1,3 +1,4 @@
+import { ProductFilterOptions } from 'protocols';
 import Product from '../../models/Product';
 import IProductRepository from '../../repositories/products/IProductRepository';
 import IProductService from './IProductService';
@@ -9,7 +10,11 @@ export default class ProductService implements IProductService {
     this.productRepository = productRepository;
   }
 
-  async getProducts(): Promise<Product[]> {
-    return this.productRepository.findAll();
+  async getProducts(filterOptions?: ProductFilterOptions): Promise<Product[]> {
+    return this.productRepository.findAll(filterOptions);
+  }
+
+  async getTop(): Promise<Product[]> {
+    return this.productRepository.findTop();
   }
 }

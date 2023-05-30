@@ -1,6 +1,5 @@
 import { Order, Prisma, PrismaClient } from '@prisma/client';
 import { OrderDetails } from 'protocols';
-import { OrderedProduct } from 'models/OrderedProduct';
 import IOrderRepository from './IOrderRepository';
 
 export default class OrderRepository implements IOrderRepository {
@@ -49,10 +48,14 @@ export default class OrderRepository implements IOrderRepository {
         products: o.orderedProduct.map(p => {
           return {
             id: p.id,
+            name: p.product.name,
             amount: p.amount,
             annotations: p.annotations,
             selectedExtras: p.selectedExtras,
-            productName: p.product.name,
+            imageUrl: p.product.imageUrl,
+            ingredients: p.product.ingredients,
+            price: p.product.price,
+            code: p.product.code,
           };
         }),
       };

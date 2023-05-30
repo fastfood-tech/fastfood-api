@@ -2,16 +2,6 @@ import { Request, Response } from 'express';
 import NewOrder from 'protocols';
 import IOrderService from 'services/orders/IOrderService';
 
-type createOderBody = {
-  order: [
-    {
-      productId: number;
-      amount: number;
-      annotations: string;
-      selectedExtras: number[];
-    },
-  ];
-};
 export default class OrderController {
   readonly orderService: IOrderService;
 
@@ -50,6 +40,11 @@ export default class OrderController {
 
   async createOrder(req: Request, res: Response): Promise<void> {
     const body = req.body as NewOrder;
+
+    if (!body.clientName) {
+      res.status(400).send('Clien name expected');
+      return;
+    }
 
     await this.orderService.createOrders(body);
     res.sendStatus(201);
