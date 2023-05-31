@@ -13,13 +13,13 @@ export default class ProductController {
     try {
       const { code, categoryId, name } = req.query as { [key: string]: string };
 
-      if (code && Number.isNaN(code)) {
-        res.sendStatus(404);
+      if (code && Number.isNaN(Number(code))) {
+        res.sendStatus(400);
         return;
       }
 
-      if (categoryId && Number.isNaN(categoryId)) {
-        res.sendStatus(404);
+      if (categoryId && Number.isNaN(Number(categoryId))) {
+        res.sendStatus(400);
         return;
       }
 
