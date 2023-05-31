@@ -3,7 +3,7 @@ on:
     branches:
       - main
 jobs:
-  pullRequestTest:
+  deploy:
     runs-on: self-hosted
     timeout-minutes: 20
     steps:
