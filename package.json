@@ -6,11 +6,12 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run prisma:migrate:deploy && node dist/src/server.js",
-    "dev": "npx nodemon src/server.ts",
+    "dev": "NODE_ENV=development npx nodemon src/server.ts",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "test": "npm run prisma:migrate:deploy &&  jest -i --passWithNoTests"
-  },"prisma": {
+  },
+  "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
@@ -28,6 +29,7 @@
     "prisma": "^4.13.0",
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
+    "swagger-ui-express": "^4.6.3",
     "ts-jest": "^29.1.0"
   },
   "devDependencies": {

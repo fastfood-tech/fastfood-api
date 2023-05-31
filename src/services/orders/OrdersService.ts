@@ -54,6 +54,7 @@ export default class OrderService implements IOrderService {
 
   async finishOrder(orderId: number): Promise<void> {
     const order = await this.orderRepository.getById(orderId);
+    if (!order) throw new OrderServiceException(404, 'Order not found');
 
     if (order.isDone) throw new OrderServiceException(409, 'Already done');
 
@@ -62,6 +63,7 @@ export default class OrderService implements IOrderService {
 
   async deliverOrder(orderId: number): Promise<void> {
     const order = await this.orderRepository.getById(orderId);
+    if (!order) throw new OrderServiceException(404, 'Order not found');
 
     if (order.isDelivered)
       throw new OrderServiceException(409, 'Already delivered');

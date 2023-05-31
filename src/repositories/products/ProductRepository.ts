@@ -19,13 +19,30 @@ export default class ProductRepository implements IProductRepository {
     code,
   }: ProductFilterOptions): Promise<Product[]> {
     return this.prisma.product.findMany({
-      include: { extras: true },
       where: {
-        id: code,
+        code,
         categoryId,
         name: {
           contains: name,
           mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        imageUrl: true,
+        categoryId: true,
+        ingredients: true,
+        price: true,
+        extras: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            imageUrl: true,
+          },
         },
       },
     });
@@ -33,8 +50,25 @@ export default class ProductRepository implements IProductRepository {
 
   async findTop(): Promise<Product[]> {
     return this.prisma.product.findMany({
-      include: { extras: true },
       take: 12,
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        imageUrl: true,
+        categoryId: true,
+        ingredients: true,
+        price: true,
+        extras: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            imageUrl: true,
+          },
+        },
+      },
     });
   }
 
