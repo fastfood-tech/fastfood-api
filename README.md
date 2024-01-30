@@ -45,8 +45,8 @@ npm i
 ```bash
 npx prisma migrate dev
 ```
-7 - run dev script:
+8 - run dev script:
 ```bash
 npm run dev
 ```
-8 - Use api endpoints at http://localhost/api or see its documentation at http://localhost/api-docs
+9 - Use api endpoints at http://localhost/api or see its documentation at http://localhost/api-docs
